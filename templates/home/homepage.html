@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+<div class="container ">
+  <div class="row ">
+    <div class="col-md-2 mt-3">
+      <ul class="list-group">
+        <li class="list-group-item navcolor">Categories</li>
+        {% for cat in cats%}
+        <li class="list-group-item"><a href="{% url 'productlist' cat.id %}" class = "text-green">{{cat.cname}}</a> </li>
+        {% endfor%}
+      </ul>
+    </div>
+
+    <div class="col-md-10 mt-2 ">
+      <div class="row ">
+        {% for product in products%}
+        <div class="  col-lg-4 col-md-4 col-sm-6 col-xs-12 my-1">
+          <div class="card h-100 ">					
+            <div class="container text-center">
+              <img src="{{product.image.url}}"  style="height: 150px;width: 150px;">
+            </div>						
+            <div class="card-body">
+              <h5 class="card-title">{{product.name}}</h5>
+                <p class="card-text">product Description</p>
+            </div>
+            <div class="card-footer text-center">
+              <a href="{% url 'singleproductdetails' product.id %}" class="btn btn-primary">Product description</a>						
+            </div>
+          </div>				
+        </div>
+        {% endfor %}
+
+
+        <!-- {% if product.has_other_pages %}
+         <ul class="pagination">
+          {% if product.has_previous %}
+         <li><a href="?page={{ product.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+         <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in product.paginator.page_range %}
+         {% if product.number == i %}
+           <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+          {% else %}
+           <li><a href="?page={{ i }}">{{ i }}</a></li>
+         {% endif %}
+          {% endfor %}
+          {% if users.has_next %}
+           <li><a href="?page={{ product.next_page_number }}">&raquo;</a></li>
+          {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+        </ul>
+        {% endif %} -->
+
+      </div>
+    </div>
+    
+  </div>          
+</div>
+
+{% endblock content %}

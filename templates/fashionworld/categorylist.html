@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+<div class="container ">
+  <div class="row ">
+    <div class="col-md-2 mt-3">
+      <ul class="list-group">
+        <li class="list-group-item navcolor"> All Categories</li>
+      </ul>
+    </div>
+
+    <div class="col-md-10 mt-2 ">
+      <div class="row ">
+        {% for obj in object_list %}
+        <div class="  col-lg-4 col-md-4 col-sm-6 col-xs-12 my-1">
+          <div class="card h-100 ">					
+            <div class="container text-center">
+              <img src="{{obj.cimage.url}}"  style="height: 150px;width: 150px;">
+            </div>						
+            <div class="card-body">
+              <h5 class="card-title">{{ obj.cname }}</h5>
+            </div>
+            <div class="card-footer text-center">		
+              <a href="{% url 'productlist' obj.id %}" class = "btn btn-primary">Show All</a>				
+            </div>
+          </div>				
+        </div>
+        {% empty %}
+        <li>No objects yet.</li>
+        {% endfor%}
+      </div>
+    </div>
+    
+  </div>          
+</div>
+{% for category in categories %}
+<a href="{% url 'productlist' category.id %}">Show Products</a>
+{% endfor %}
+{% endblock content %}

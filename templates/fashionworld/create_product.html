@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load css_styles %}
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-4 offset-md-2 mt-4 "></div>
+        <div class="card" style="border: 1px solid white;">
+
+          {% if form.errors %}
+          {% for field in form %}
+          {% for error in field.errors %}
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+           <strong>{{ field.label }}</strong><span>{{ error|escape }}</span>
+           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+         </div>
+           {% endfor %}
+           {% endfor %}
+           {% for error in form.non_field_errors %}
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                 <strong>{{ error|escape }}</strong> 
+                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+               </div>
+                {% endfor %}
+                 {% endif %}
+
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Products</b></h2>           
+            </div>
+            <div class="card-body px-5">
+                <form method="post", enctype="multipart/form-data">
+                  {% csrf_token %}
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.name.label_tag}}</label>
+                        <div>
+                          {{form.name |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.price.label_tag}}</label>
+                        <div>
+                          {{form.price |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.pdesc.label_tag}}</label>
+                        <div>
+                          {{form.pdesc |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.image.label_tag}}</label>
+                        <div>
+                          {{form.image |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.pcat.label_tag}}</label>
+                        <div>
+                          {{form.pcat |addclass:'inputTagCss, form-control' }}
+                        </div>
+                        <select  name="pcategory" type="number" class="form-control" id="pcategory">
+                            {% for category in categories %}
+                            <option value="{{category.id}}">{{category.cname}}</option>
+                            print(Category.cname)
+                            {% endfor %}
+                           </select> 
+                      </div>
+                      <div>
+                      <button type="submit" class="btn btn-primary mt-5">Submit</button>
+                    </div>
+                    </form>
+            </div>         
+          </div>
+     </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,15 @@
+.navcolor{
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    background-image: Linear-gradient(to left,#CCFF99,#33FFCC);
+}
+
+.backgroudColor{
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    background-image: Linear-gradient(to left,#33FFCC, #CCFF99);
+}
+
+.inputTagCss{
+
+    outline-color: green;
+      
+}

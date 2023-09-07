@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="container mt-5">
+    <div class="row">
+      <div class = "col-md-12">
+        <div class="card" style="width: 45rem; margin-left: 15%;">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Login</b></h2>           
+            </div>
+            <div class="card-body">
+                <p>{{request.method}}</p>
+                <p>{{request.path}}</p>
+                <p>{{request.user}}</p>
+                <form method="post">
+                  {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input name="username" type="text" class="form-control" id="email" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input name="password" type="password" class="form-control" id="password">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>         
+          </div>
+        </div>
+    </div>
+</div>
+
+{%  endblock content %}

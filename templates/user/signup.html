@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load css_styles %}
+{% block 'mycss' %}
+
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 col-sm-1 offset"></div>     
+        <div class="card" style="width: 45rem;">    
+          <div class="col-md-4 col-sm-1 "></div>   
+              {% if form.errors %}
+               {% for field in form %}
+               {% for error in field.errors %}
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ field.label }}</strong><span>{{ error|escape }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong>{{ error|escape }}</strong> 
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                     {% endfor %}
+                      {% endif %}
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Registration form</b></h2>           
+            </div>
+            <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">{{form.first_name.label_tag}}</label>
+                    <div>
+                      {{form.first_name |addclass:'inputTagCss, form-control' }}
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">{{form.last_name.label_tag}}</label>
+                    <div >
+                      {{form.last_name |addclass:'inputTagCss, form-control' }}
+                    </div>
+                  </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">{{form.email.label_tag}}</label>
+                        <div>
+                          {{form.email |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.password.label_tag}}</label>
+                        <div>
+                          {{form.password |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.cpassword.label_tag}}</label>
+                        <div>
+                          {{form.cpassword |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.phone_number.label_tag}}</label>
+                        <div>
+                          {{form.phone_number |addclass:'inputTagCss, form-control' }}
+                        </div>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">{{form.gender.label}}</label>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="gender" id="gender1" value="male" checked>
+                          <label class="form-check-label" for="exampleRadios1">
+                            Male
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="gender" id="gender1" value="female">
+                          <label class="form-check-label" for="exampleRadios2">
+                            Female
+                          </label>
+                        </div>
+
+                    </div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">{{form.state.label_tag}}</label>
+                      <select class="form-select" aria-label="Default select example" name = "state">
+                        <option selected value="India">India</option>
+                        <option name = "state" value="Pakistan">Pakistan</option>
+                        <option name = "state" value="Nepal">Nepal</option>
+                        <option name = "state" value="Shri Lanka">Shri Lanka</option>
+                      </select>
+
+                    <br><br><br>
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+            </div>  
+          </div>
+          </div> 
+        </div>
+    </div>
+</div>
+
+{%  endblock content %}

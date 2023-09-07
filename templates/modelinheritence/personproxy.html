@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content%}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="card">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Proxy Model</b></h2>           
+            </div>
+            <div class="card-body">
+                <form class="row g-3" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-6">
+                      <label for="inputEmail4" class="form-label">FirstName</label>
+                      <input type="text"name = "firstname" class="form-control" id="inputEmail4">
+                    </div>
+                    <div class="col-md-6">
+                      <label for="inputPassword4" class="form-label">Last Name</label>
+                      <input type="text" name = "lastname" class="form-control" id="inputPassword4">
+                    </div>
+                    <div class="col-md-4">
+                      <label for="inputState" class="form-label">Type</label>
+                      <select id="inputState" class="form-select" name="type">
+                        <option selected value = "image" name = "type">Image</option>
+                        <option value = "video" name = "type">Video</option>
+                      </select>
+                    </div> 
+                    <label for="homepage">Video</label>
+                    <input type="url" id="video" name="urlvalues">
+
+                    <label for="homepage">Image</label>
+                    <input type="file" id="image" name="image">
+                   
+                    <div class="col-12">
+                      <button type="submit" class="btn btn-primary">submit</button>
+                    </div>
+                  </form>
+</div>         
+</div>
+</div>
+</div>
+
+
+{%  endblock content %}

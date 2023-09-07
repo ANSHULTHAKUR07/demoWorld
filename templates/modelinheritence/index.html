@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load css_styles %}
+{% block content%}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3 mt-2">
+        <div class="card">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Employee Data</b></h2>           
+            </div>
+            <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">UserName</label>
+                    <input name="username" type="text" class="form-control" id="username">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Class</label>
+                    <input name="userclass" type="text" class="form-control" id="userclass">
+                  </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Age</label>
+                    <input name="userage" type="number" class="form-control" id="userage">
+                    </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Phone</label>
+                    <input name="phone" type="number" class="form-control" id="phone">
+                    </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Roll.No</label>
+                    <input name="rollno" type="number" class="form-control" id="rollno">
+                    </div>
+                     <div class="text-center">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                     </div>
+                    </form>
+            </div>         
+          </div>
+    </div>
+
+    <div class="col-md-9 mt-2 ">
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr class="navcolor">
+                      <th scope="col">UserId</th>
+                      <th scope="col">UserName</th>
+                      <th scope="col">Class</th>
+                      <th scope="col">Roll.No</th>
+                      <th scope="col">Age</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Delete</th>
+                      <th scope="col">Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in st %}
+                  <tr>
+                    <th scope="row">{{student.id}}</th>
+                    <td>{{student.user_name}}</td>
+                    <td>{{student.class_name}}</td>
+                    <td>{{student.roll_number}}</td>
+                    <td>{{student.user_age}}</td>
+                    <td>{{student.user_phone}}</td>
+                    <td><a class="btn btn-danger" role="button" href="{% url 'deleteuser' student.id %}">Delete</a></td>
+                    <td><a class="btn btn-success" role="button" href="{% url 'updateuser' student.id %}">Update</a></td>
+                    
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+    </div>
+    <div class ="container">
+      <form method="get">
+        {% csrf_token %}
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="50">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Age less then 50
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="100">
+          <label class="form-check-label" for="flexRadioDefault2">
+           Age Greater then 50
+          </label>
+        </div>
+        <div class="mb-3 mt-4">
+          <label for="exampleInputPassword1" class="form-label">Filter by age</label>
+          <input name="age" type="number" class="form-control" id="age">
+        </div>
+        <div class="mb-3 mt-4">
+          <label for="exampleInputPassword1" class="form-label">Filter by class</label>
+          <input name="userclass" type="text" class="form-control" id="userclass">
+        </div>
+
+        <div class="mb-3 mt-4">
+          <label for="birthdaytime">to</label>
+          <input type="datetime-local" id="birthdaytime" name="todate">
+        </div>
+        <div class="mb-3 mt-4">
+          <label for="birthdaytime">from</label>
+          <input type="datetime-local" id="birthdaytime" name="fromdate">
+        </div>
+        <div class="mb-3 mt-4">
+          <label for="exampleInputPassword1" class="form-label">Enter month </label>
+          <input name="monthvalue" type="number" class="form-control" id="monthvalue">
+        </div>
+       
+          <div class="text-center">
+          <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+          </form>
+    
+
+
+    </div> 
+
+    <div class = "container">
+      <div class="row">
+        <table class="table">
+            <thead>
+                <tr class="navcolor">
+                  <th scope="col">UserId</th>
+                  <th scope="col">UserName</th>
+                  <th scope="col">Class</th>
+                  <th scope="col">Roll.No</th>
+                  <th scope="col">Age</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col">Delete</th>
+                  <th scope="col">Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for fstudent in filterstudents %}
+              <tr>
+                <th scope="row">{{fstudent.id}}</th>
+                <td>{{fstudent.user_name}}</td>
+                <td>{{fstudent.class_name}}</td>
+                <td>{{fstudent.roll_number}}</td>
+                <td>{{fstudent.user_age}}</td>
+                <td>{{fstudent.user_phone}}</td>
+               
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+</div>
+
+    </div>
+
+</div>
+</div>
+</div>
+
+{%  endblock content %}

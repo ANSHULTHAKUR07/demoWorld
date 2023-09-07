@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load css_styles %}
+{% block 'mycss' %}
+
+{% endblock %}
+{% block content%}
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-4"></div>     
+        <div class="card" style="width: 45rem;">       
+              {% if form.errors %}
+               {% for field in form %}
+               {% for error in field.errors %}
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ field.label }}</strong><span>{{ error|escape }}</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+                {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                      <strong>{{ error|escape }}</strong> 
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                     {% endfor %}
+                      {% endif %}
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Create Category</b></h2>           
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">{{form.cname.label_tag}}</label>
+                    <div>
+                      {{form.cname |addclass:'inputTagCss, form-control' }}
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">{{form.cimage.label_tag}}</label>
+                    <div>
+                      {{form.cimage |addclass:'inputTagCss, form-control' }}
+                    </div>
+                  </div> 
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>         
+          </div>
+    </div> 
+</div>
+   
+
+{%  endblock content %}

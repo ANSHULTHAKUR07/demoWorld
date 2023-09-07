@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="container mt-4">
+    <div class="row">
+        <div class="card">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Update User</b></h2>           
+            </div>
+            <div class="card-body">
+                <form method="post">
+                  {% for i in user %}
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">UserName</label>
+                    <input name="username" type="text" value="{{i.user_name}}" class="form-control" id="username">
+                  </div>
+                  <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Class</label>
+                    <input name="userclass" type="text" value="{{i.class_name}}" class="form-control" id="userclass">
+                  </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Age</label>
+                    <input name="userage" type="number" value="{{i.user_age}}" class="form-control" id="userage">
+                    </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Phone</label>
+                    <input name="phone" type="number" value="{{i.user_phone}}" class="form-control" id="phone">
+                    </div>
+                    <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Roll.No</label>
+                    <input name="rollno" type="number" value="{{i.roll_number}}" class="form-control" id="rollno">
+                    </div>
+                    {% endfor %}
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>         
+          </div>
+    </div>
+</div>
+
+{%  endblock content %}

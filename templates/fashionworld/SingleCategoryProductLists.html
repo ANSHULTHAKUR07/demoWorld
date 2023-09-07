@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+
+<div class="container ">
+  <div class="row ">
+    <div class="col-md-2 mt-3">
+      <ul class="list-group">
+        <li class="list-group-item navcolor">single category products</li>
+      </ul>
+    </div>
+    <div class="col-md-10 mt-2 ">
+      <div class="row ">
+        {% for page in page_obj %}
+        <div class="  col-lg-4 col-md-4 col-sm-6 col-xs-12 my-1">
+          <div class="card h-100 ">					
+            <div class="container text-center">
+              <img src="{{page.image.url}}"  style="height: 150px;width: 150px;">
+            </div>						
+            <div class="card-body">
+              <h4 class="card-title">{{ page.name }}</h4>
+              <h5>{{ page.pdesc }}</h5>
+            </div>
+            <div class="card-footer text-center">		
+              <a href="{% url 'singleproductdetails' page.id %}" class = "btn btn-primary">Show All</a>				
+            </div>
+          </div>				
+        </div>
+        {{course_details.subject}}
+        {% empty %}
+        <li>No objects yet.</li>
+        
+        {% endfor%}
+        {% if is_paginated %}
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&laquo;</span></li>
+          {% endif %}
+          {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+            {% else %}
+              <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+          {% else %}
+            <li class="disabled"><span>&raquo;</span></li>
+          {% endif %}
+        </ul>
+      {% endif %}
+      </div>
+      
+    </div>
+    
+  </div>          
+</div>
+
+{% endblock content %}

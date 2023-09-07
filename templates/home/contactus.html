@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content%}
+<div class="container mt-4">
+    <div class="row">
+        <div class="card" style="width: 45rem; margin-left: 15%;">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Contact Us</b></h2>           
+            </div>
+            <div class="card-body">
+                <form method="post">
+                  {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input name="emailid" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Message</label>
+                        <textarea name="message" type="textarea" class="form-control" id="message"></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Phone Number</label>
+                        <input name="phone" type="number" class="form-control" id="phonenumber">
+                      </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+            </div>         
+          </div>
+    </div>
+</div>
+
+{%  endblock content %}
