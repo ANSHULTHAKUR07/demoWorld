@@ -30,6 +30,11 @@ class ShoppingUser(AbstractUser):
     def __str__(self):
         return self.email
     
+    class Meta:
+         permissions = (
+        ("can_add_data","can add a new data"),
+        )
+    
 
 class Otpgenrator(models.Model):
     userid = models.ForeignKey(ShoppingUser, null=False, on_delete=models.CASCADE)
@@ -38,6 +43,14 @@ class Otpgenrator(models.Model):
 
     def __str__(self):
         return self.otp
+    
+
+class Profile(models.Model):
+    user = models.OneToOneField(ShoppingUser, on_delete=models.CASCADE)
+    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+
+    def __str__(self):
+        return self.user.first_name
 
 
 

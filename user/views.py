@@ -18,6 +18,7 @@ import re
 from django.utils import timezone
 import time
 from .util import *
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -83,6 +84,8 @@ def login(request):
             len(email1)==0 or email1.isspace(),
             len(password2)==0 or password2.isspace()
         ]
+        
+
         if not any(conditions):
             user = authenticate(request, email=email1,password=password2)
             if user is not None:
@@ -94,7 +97,6 @@ def login(request):
 
                 return redirect('/')
             else:
-
                 messages.error(request, "Invalid credentials")
                 return redirect('/user/login')
             
@@ -129,7 +131,6 @@ def signup(request):
             print(userotp.otp, "its generated otp")
             print(userotp.created_at, "datetime")
 
-            
             request.session['user_id'] = userotp.userid.id
             request.session['resend_otp'] = userotp.otp
 
@@ -185,7 +186,7 @@ class VerifyOtp(View):
             print(created_at, "date in object from")
             time_difference = current_time - created_at
             print(time_difference, "time difference -----------")
-            if time_difference.total_seconds() > 60:
+            if time_difference.total_seconds() > 600:
                 if user:
                     user.delete()
                 messages.error(request, "OTP has expired. click on resend button to resend new otp. ")
@@ -227,6 +228,9 @@ def resendOtp(request):
             print("else part of return redirect +++")
             return redirect("/user/verify")
     return render(request, "user/verify_otp.html")
+
+
+
                 
 
  

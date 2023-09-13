@@ -8,8 +8,6 @@ urlpatterns = [
     path('login',views.login,name='login'),
     path('logout',views.logout_user,name='logout'),
     path('verify/',VerifyOtp.as_view(), name='verify'),
-    path('resendotp',views.resendOtp,name='resendotp'),
-    
-   
+    path('resendotp',views.resendOtp,name='resendotp'),   
 
 ]
