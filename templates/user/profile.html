@@ -1,11 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h2> user profile page </h2>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content%}
+
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Information -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center;"><b>User Profile</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="{{profile.image.url}}"  style="height: 150px;width: 150px;">
+                    </div>
+                    
+                    <table class="table">
+                        <tbody>
+                          <tr>
+                            <th scope="row">Name : </th>
+                            <td>{{profile.user.first_name}} {{profile.user.last_name}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Email : </th>
+                            <td>{{profile.user.email}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Phone Number : </th>
+                            <td colspan="2">{{profile.user.phone_number}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Gender : </th>
+                            <td colspan="2">{{profile.user.gender}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">State : </th>
+                            <td colspan="2">{{profile.user.state}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <button type="button" class="btn navcolor" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Edit Profile details
+                      </button>
+                      <a href="/user/addbyfriend/{{user.id}}" class="btn btn-info navcolor" role="button">Show Users</a>
+        
+                      <a href="/user/showFriendDetails/{{user.id}}" class="btn btn-info navcolor" role="button">Show Friendlist</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Friends List -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center;"><b>Friends List</b></h2>
+                </div>
+                <div class="card-body">
+                    {% for friend in friends %}
+                    <div>
+                        <h4 style="font-family:courier;"><b>{{ friend.first_name }} {{friend.last_name}}</b> <a href="/user/showFriendprofile/{{friend.id}}" class="btn btn-info navcolor" role="button">Show Friends Profile</a></h4>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update User Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <img src="{{profile.image.url}}"  style="height: 150px;width: 150px;">
+                        </div>
+                            <form method="post" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <div class="mb-3">                
+                                <input name="userid" type="hidden" value="{{profile.user.id}}" class="form-control" id="image">
+                            </div>
+                              <div class="mb-3">                
+                                <input name="profileid" type="hidden" value="{{profile.id}}" class="form-control" id="image">
+                            </div>
+                              <div class="mb-3">                
+                                <label for="exampleInputEmail1" class="form-label">select Profile pic</label>
+                                <input name="image" type="file" class="form-control" id="image">
+                            </div>
+                                <div class="mb-3">                
+                                    <label for="exampleInputEmail1" class="form-label">FirstName</label>
+                                    <input name="first_name" value = "{{profile.user.first_name}}" type="text" class="form-control" id="first_name" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">                
+                                    <label for="exampleInputEmail1" class="form-label">LastName</label>
+                                    <input name="last_name" value = "{{profile.user.last_name}}" type="text" class="form-control" id="last_name" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">                
+                                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                                    <input name="email" value = "{{profile.user.email}}" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">                
+                                    <label for="exampleInputEmail1" class="form-label">Password</label>
+                                    <input name="password" value = "{{profile.user.password}}" type="password" class="form-control" id="password" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">                
+                                    <label for="exampleInputEmail1" class="form-label">Phone Number</label>
+                                    <input name="phone_number" value = "{{profile.user.phone_number}}" type="text" class="form-control" id="phone_number" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="exampleInputPassword1" class="form-label">Gender</label>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="gender" id="gender1" value="male" checked>
+                                      <label class="form-check-label" for="exampleRadios1">
+                                        Male
+                                      </label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input class="form-check-input" type="radio" name="gender" id="gender1" value="female">
+                                      <label class="form-check-label" for="exampleRadios2">
+                                        Female
+                                      </label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="exampleInputPassword1" class="form-label">State</label>
+                                          <select class="form-select" aria-label="Default select example" name = "state">
+                                            <option selected value="India">India</option>
+                                            <option name = "state" value="Pakistan">Pakistan</option>
+                                            <option name = "state" value="Nepal">Nepal</option>
+                                            <option name = "state" value="Shri Lanka">Shri Lanka</option>
+                                          </select>
+                                        </div>
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                        </div>         
+                      </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{%  endblock content %}

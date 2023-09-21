@@ -35,3 +35,19 @@ def get_otp_from_session(request, otp, user_id):
         messages.error(request, "Invalid OTP. Please try again.")
         return render(request, 'user/verify_otp.html')
     
+
+def friends_profile_list_of_friends(request, user_id):
+    print(user_id, "is in function bro++++++++++++++++++++++++++++++++++++++++")
+    try:
+        all_friends = ShoppingUser.objects.get(id = user_id)
+        print(all_friends, "12365478978965413anshul")
+        total_friends = all_friends.friends.filter(id__gt=1)
+        profileimage = Profile.objects.get(user_id = all_friends)
+        all = {"friends":total_friends, "profile":profileimage, "userprofile":all_friends}
+
+    except ShoppingUser.DoesNotExist as e :
+        print(e)
+        return render(request, "user/profile.html" )
+    
+    return all
+    

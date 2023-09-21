@@ -60,5 +60,6 @@ def contactus(request):
                 messages.error(request, "all fields are required")
         return render(request, 'home/contactus.html')
 
+@permission_required("user.show_profile", raise_exception= True)
 def aboutus(request):
     return render(request, 'home/aboutus.html')

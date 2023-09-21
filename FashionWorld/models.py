@@ -17,6 +17,10 @@ class Category(models.Model):
         verbose_name = 'category'
         db_table = 'category'
 
+        permissions = [
+            ("category_check_permission", " check category permission s valid or not"),
+        ]
+
 
 class Product(models.Model):
     name = models.CharField(max_length=50, null=False)
@@ -54,6 +58,8 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'order'
         db_table = 'order'
+
+        
 
 
 

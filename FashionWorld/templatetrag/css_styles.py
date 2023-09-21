@@ -7,7 +7,7 @@ def addclass(value, arg):
     print("decorator check",arg)
     return value.as_widget(attrs={'class': arg})
 
-@register.filter()
+@register.filter(name = 'totalprice')
 def totalprice(value, arg):
     print("++++++++++++++++++++++++++++++")
     t = float(value) *arg

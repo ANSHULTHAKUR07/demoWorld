@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block content%}
+<div class="container mt-5">
+    <div class="row">
+      <div class = "col-md-12">
+        <div class="card" style="width: 45rem; margin-left: 15%;">
+            <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center; "><b>Friends</b></h2>           
+            </div>
+            <div class="card-body">
+                <h2>{{user_id}}</h2>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">{{user.id}}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in user %}
+                      <tr>
+                        <td>{{user.first_name}} {{user.last_name}}</td>
+                        <td>
+                        <form method="get" action="/user/friendadd/{{user.id}}">
+                            <input type ="hidden" value="{{user_id}}" name="userid" placeholder="userid form table">
+                            <button type="submit" class="btn btn-info navcolor" role="button">Add friends</button>
+                       </form>
+                    </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+        
+            </div>         
+          </div>
+        </div>
+    </div>
+</div>
+
+
+{%  endblock content %}

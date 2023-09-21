@@ -1,4 +1,4 @@
-# from django.contrib import admin
+from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.admin import UserAdmin as UA
@@ -8,7 +8,7 @@ from django.contrib import admin
 
 
 class UserAdmin(UA):
-    add_form = UserForm()
+    add_form = UserForm
 
     fieldsets = (
         (None, {"fields": ("password",)}),
@@ -32,7 +32,7 @@ class UserAdmin(UA):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": ("email", "password", "cpassword", "phone_number", "gender", "state", "first_name", "last_name", "is_active", "is_staff", "is_superuser"),
             },
         ),
     )
@@ -44,6 +44,8 @@ class UserAdmin(UA):
 
 admin.site.register(ShoppingUser, UserAdmin)
 admin.site.register(Profile)
+
+
 
 # class MyUser(admin.ModelAdmin):
 #     list_display = ("email", "first_name", "last_name", "phone_number", "state", "gender")

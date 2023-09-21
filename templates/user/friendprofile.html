@@ -1,0 +1,65 @@
+
+{% extends 'base.html' %}
+{% block content%}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Profile Information -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center;"><b>User Profile</b></h2>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-3">
+                        <img src="{{profile.image.url}}"  style="height: 150px;width: 150px;">
+                    </div>
+                    <table class="table">
+                        <tbody>
+                          <tr>
+                            <th scope="row">Name : </th>
+                            <td>{{userprofile.first_name}} {{userprofile.last_name}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Email : </th>
+                            <td>{{userprofile.email}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Phone Number : </th>
+                            <td colspan="2">{{userprofile.phone_number}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Gender : </th>
+                            <td colspan="2">{{userprofile.gender}}</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">State : </th>
+                            <td colspan="2">{{userprofile.state}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <a href="/user/showFriendfriendslist/{{userprofile.id}}" class="btn btn-info navcolor" role="button">Show Friendlist</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Friends List -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header navcolor p-2">
+                    <h2 style="text-align: center;"><b>Friends List</b></h2>
+                </div>
+                <div class="card-body">
+                    {% for friend in friends %}
+                    <div>
+                        <h4 style="font-family:courier;"><b>{{ friend.first_name }} {{friend.last_name}}</b> <a href="/user/showFriendprofile/{{friend.id}}" class="btn btn-info navcolor" role="button">Show Friends Profile</a></h4>
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%  endblock content %}

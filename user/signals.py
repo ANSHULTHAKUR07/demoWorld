@@ -10,4 +10,9 @@ def create_profile(sender, instance, created, **kwargs):
     print(instance, "---------->>>  instance")
     print(created, "---------->>>  created")
     if created:
-        Profile.objects.create(user = instance)
+        print(instance, "---------->>>  instance id created is true")
+        Profile.objects.create(user = instance)  
+         
+    else:
+        instance.profile.save()
+

@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import ShoppingUser
@@ -19,7 +21,8 @@ from django.utils import timezone
 import time
 from .util import *
 from django.contrib.auth.decorators import login_required
-
+from django.views.generic import ListView
+from django.db.models import Q
 
 
 
@@ -94,7 +97,7 @@ def login(request):
                 if "next" in request.POST:
                     next_url = request.POST.get('next')
                     return redirect(next_url)
-
+            
                 return redirect('/')
             else:
                 messages.error(request, "Invalid credentials")
@@ -151,7 +154,8 @@ def signup(request):
                 messages.success(request, "you have singed up successfully please check your email id and verify your account  ")
                 print("else part of return redirect +++")
                 request.session['email'] = user.email
-                return redirect("verify/")       
+                return redirect("verify/")
+              
     return render(request, 'user/signup.html',context={'form':userform})
 
 
@@ -228,6 +232,138 @@ def resendOtp(request):
             print("else part of return redirect +++")
             return redirect("/user/verify")
     return render(request, "user/verify_otp.html")
+
+
+class UserProfile(View):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            profile = request.user.profile
+            print(profile, "=========> user profile details")
+            return render(request, "user/profile.html", {'profile': profile})
+        
+    def post(self, request, *args, **kwargs):
+        print( "user first name in update data")
+        u_id = request.POST.get('userid')
+        p_id = request.POST.get('profileid')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        phone_number = request.POST.get('phone_number')
+        gender = request.POST.get('gender')
+        state = request.POST.get('state')
+
+        user = ShoppingUser.objects.get(pk=u_id)
+        if user:
+            user.first_name = first_name
+            user.last_name = last_name
+            user.email = email
+            user.phone_number = phone_number
+            user.gender = gender
+            user.state = state
+            user.save()
+
+        if 'image' in request.FILES:
+            image = request.FILES['image']
+            print(image, "wklehfowrgbejgjvwbjlk======.......=====")
+            profileid = Profile.objects.get(pk=p_id) 
+            profileid.id = p_id
+            profileid.user_id = u_id
+            profileid.image = image
+            profileid.save()
+            print("profile updatred succesfully")
+        
+        print(u_id,p_id,first_name,last_name,email,password,phone_number,gender,state)
+        return redirect("/user/profile_details")
+    
+class AddFriends(View):
+    def get(self, request, *args, **kwargs):
+        userid = kwargs.get('id')
+        print(userid, "it is in friend list view ++++++")
+        user = ShoppingUser.objects.all()
+        return render(request, "user/friendlist.html", context={'user':user, 'user_id':userid})
+    
+
+class FriendAdded(View):
+    def get(self, request, *args, **kwargs):
+            userid = request.GET.get('userid')
+            main_user = ShoppingUser.objects.get(id = userid)
+            print(userid,"userid +++++++++++88888888888888888888")
+            print(request.GET)
+            user_id = kwargs.get('id')
+            print(user_id, "friend id +++++++++++++++++++++++++++++")
+            single_user = ShoppingUser.objects.get(id = user_id)
+            print(single_user, "singleuser +++++++++++++++++++++++++++++")
+            main_user.friends.add(single_user)
+        
+            return redirect("/user/profile_details")
+        
+
+    def post(self, request, *args, **kwargs):
+        return render(request, "user/login.html")    
+    
+    
+class ShowFriendList(View):
+    def get(self, request, *args, **kwargs):
+        print("show friend list page ++++++++__________")
+        user_id = kwargs.get('id')
+        # all_friends = ShoppingUser.objects.get(id = user_id)
+        # total_friends = all_friends.friends.filter(id__gt=1)
+        # profile_user = Profile.objects.get(user_id=all_friends)
+        result = friends_profile_list_of_friends(request, user_id)
+        total_friends = result['friends']
+        profile_user = result['profile']
+
+        return render(request, "user/profile.html", context={"friends": total_friends, 'profile':profile_user})
+
+class ShowFriendProfile(View):
+    def get(self, request, *args, **kwargs):
+        print("show frireefknevncejnvcjoenfvnvksnvknvo9874548469====")
+        friend_id = kwargs.get('id')
+        # friend_profile = ShoppingUser.objects.get(id = friend_id)
+        # profileimage = Profile.objects.get(user_id = friend_id)
+        result = result = friends_profile_list_of_friends(request, friend_id)
+        friend_profile = result['userprofile']
+        profileimage = result['profile']
+        print(friend_profile, "user profile=-=-=-=-=----")
+        return render(request, "user/friendprofile.html", context={"userprofile":friend_profile, 'profile':profileimage})
+    
+
+class ShowFriendsFriendList(View):
+    permission_required = "user.can_add_data"
+    def get(self, request, *args, **kwargs):
+        print("show all friends list 1236547891236547891236547899")
+        user_id = kwargs.get('id')
+        # all_friends = ShoppingUser.objects.get(id = user_id)
+        # total_friends = all_friends.friends.filter(id__gt=1)
+        # profileimage = Profile.objects.get(user_id = user_id)
+      
+        result = friends_profile_list_of_friends(request, user_id)
+        total_friends = result['friends']
+        profileimage = result['profile']
+        all_friends = result['userprofile']
+        print("all friends --------------------------------------------------")
+        return render(request, "user/friendprofile.html", context={"friends":total_friends, "profile":profileimage, "userprofile":all_friends})
+    
+
+class SearchFriend(ListView):
+    model = ShoppingUser
+    fields = "friends"
+    template_name = "user/profile.html"
+    context_object_name = "userfriend"
+
+    def get_queryset(self):
+        query = self.request.GET.get('search')
+        print(query, "++++query set ")
+        friends=ShoppingUser.objects.filter(Q(friends__icontains=query))
+        print(friends, "all friends")
+        return friends
+    
+
+   
+        
+    
+
 
 
 

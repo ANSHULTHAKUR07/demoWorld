@@ -8,7 +8,7 @@ from django.views.generic import DetailView, ListView, DeleteView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .mixins import GroupRequiredMixin
 from django.views.defaults import permission_denied
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from cart.cart import Cart
 from decimal import Decimal
 from .util import *
@@ -16,13 +16,12 @@ from django.conf import settings
 from django.contrib.sessions.models import Session
 import json
 from django.db.models import Q
+from .permissions import CustomePermissionCheck
 
 # from .forms import *
 
 # Create your views here.
-class CategoryView(PermissionRequiredMixin, View):
-    permission_required = "FashionWorld.add_category"
-
+class CategoryView( View):
     def post(self, request, *args, **kwargs):
         cname = request.POST.get('cname')
         print("__________jkk",request.FILES)
@@ -94,20 +93,22 @@ class CategoryView(PermissionRequiredMixin, View):
     
 
 class CreateCategory(PermissionRequiredMixin, CreateView):
-    permission_required = ["FashionWorld.add_category"]
+    permission_required = "user.show_profile"
     model = Category
     fields = ['cname','cimage']
     template_name = 'fashionworld/create_category.html'
     success_url = '/'
 
-class CreateProduct(CreateView):
+class CreateProduct(PermissionRequiredMixin, CreateView):
+    permission_required = ["FashionWorld.add_product"]
     model = Product
     fields = '__all__'
     template_name = 'fashionworld/create_product.html'
     success_url = '/'
 
 
-class ListCategory(ListView):
+class ListCategory(PermissionRequiredMixin, ListView):
+    permission_required = ["user.show_product"]
     model = Category
     fields = ['cname', 'cimage']
     template_name = 'fashionworld/categorylist.html'
@@ -195,7 +196,7 @@ def cart_clear(request):
 @login_required(login_url="/user/login")
 def cart_detail(request):
     cart = Cart(request)
-    
+
     if not request.session.get('cart'):
         user_id = str(request.user.id)
         try:

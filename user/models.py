@@ -26,14 +26,18 @@ class ShoppingUser(AbstractUser):
     phone_number = models.CharField(max_length=10)
     gender = models.CharField(choices = GenderChoices, max_length=6)
     state = models.CharField(choices= StateChoice, max_length=50)
+    friends = models.ManyToManyField("self", symmetrical=True, blank=True)
+    
 
     def __str__(self):
-        return self.email
+        return str(self.email)
     
     class Meta:
          permissions = (
         ("can_add_data","can add a new data"),
         )
+         
+
     
 
 class Otpgenrator(models.Model):
@@ -42,15 +46,23 @@ class Otpgenrator(models.Model):
     created_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.otp
+        return str(self.otp)
     
 
 class Profile(models.Model):
     user = models.OneToOneField(ShoppingUser, on_delete=models.CASCADE)
-    image = models.ImageField(default='default.jpg', upload_to='profile_pics')
+    image = models.ImageField(default='images/userImages/profilepic.jpg', upload_to='profile_pics')
 
     def __str__(self):
-        return self.user.first_name
+        return str(self.user)
+    
+    class Meta:
+        permissions = (
+            ("show_profile","only login user show profile page "),
+        )
+    
+    
+
 
 
 
